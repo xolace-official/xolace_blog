@@ -2,28 +2,40 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Menu, X } from 'lucide-react';
 import {XolaceLogo} from "@/components/shared/xolace-logo";
 
 const navLinks = [
-  { label: 'Manifesto', href: '/manifesto' },
-  { label: 'For Institutions', href: '/institutions' },
+  { label: 'Menu1', href: '/menu1' },
+  { label: 'Menu2', href: '/menu2' },
+  { label: 'Menu3', href: '/mene3' },
 ];
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === '/';
 
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    // Trigger initially
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <div className="bg-primary text-primary-foreground">
-      <header className="sticky top-0 z-50 w-full bg-primary py-4 transition-colors">
+    <header className="sticky top-0 z-50 w-full bg-primary text-primary-foreground transition-shadow duration-300 shadow-sm">
+      <div className="py-4">
         <div className="mx-auto flex max-w-300 items-center justify-between px-6 md:px-10">
           <Link href="https://xolaceinc.com" className="group shrink-0">
-            <XolaceLogo size="md" priority/>
+            <XolaceLogo size="sm" priority/>
           </Link>
 
           <nav className="hidden items-center gap-8 md:flex">
@@ -64,35 +76,41 @@ export function SiteHeader() {
             </div>
           </nav>
         )}
-      </header>
+      </div>
 
       {isHome && (
-        <section className="mx-auto max-w-[1200px] px-6 pb-16 pt-8 md:px-10 md:pb-20 md:pt-12">
-          <div className="mt-4 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-xl">
-              <h1 className="font-serif text-3xl leading-tight text-primary-foreground md:text-[42px] md:leading-[1.15]">
-                Essays and words for what&apos;s hard to carry.
-              </h1>
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isScrolled ? 'max-h-0 opacity-0' : 'max-h-[500px] opacity-100'
+          }`}
+        >
+          <section className="mx-auto max-w-300 px-6 pb-16 pt-2 md:px-10 md:pb-20 md:pt-4">
+            <div className="mt-4 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-xl">
+                <h1 className="font-serif text-3xl leading-tight text-primary-foreground md:text-[42px] md:leading-[1.15]">
+                  Essays and words for what&apos;s hard to carry.
+                </h1>
+              </div>
+              <p className="max-w-sm text-[15px] leading-relaxed text-primary-foreground/80 md:text-right">
+                A quiet place to read. Words for the feelings that don&apos;t have names yet.
+              </p>
             </div>
-            <p className="max-w-sm text-[15px] leading-relaxed text-primary-foreground/80 md:text-right">
-              A quiet place to read. Words for the feelings that don&apos;t have names yet.
-            </p>
-          </div>
 
-          <div className="mt-10 flex max-w-md flex-col gap-3 sm:flex-row bg-background p-1 rounded-md">
-            <Input
-              type="email"
-              placeholder="Enter your email here to subscribe"
-              className="flex-1 bg-background text-foreground placeholder:text-foreground/60 focus-visible:ring-foreground/50"
-            />
-            <Button
-              type="button"
-            >
-              Subscribe
-            </Button>
-          </div>
-        </section>
+            <div className="mt-10 flex max-w-md flex-col gap-3 sm:flex-row bg-background p-1 rounded-md">
+              <Input
+                type="email"
+                placeholder="Enter your email here to subscribe"
+                className="flex-1 bg-background text-foreground placeholder:text-foreground/60 focus-visible:ring-foreground/50 border"
+              />
+              <Button
+                type="button"
+              >
+                Subscribe
+              </Button>
+            </div>
+          </section>
+        </div>
       )}
-    </div>
+    </header>
   );
 }

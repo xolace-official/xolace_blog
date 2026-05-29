@@ -14,7 +14,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
         <button
           type="button"
           disabled={isFirstPage}
-          className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm text-foreground transition-colors duration-150 hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm text-foreground transition-colors duration-150 hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
         >
           <svg
             viewBox="0 0 20 20"

@@ -26,14 +26,14 @@ export function DownloadButtons({className, align = "center"}: DownloadButtonsPr
                 className="transition-all duration-300 flex items-center justify-center hover:scale-105 hover:opacity-90 active:scale-95 overflow-hidden"
             >
                 <Image
-                    src="/images/brand/app-store-mobile-dark.png"
+                    src="/images/brand/app-store-mobile.png"
                     alt="Download on the App Store"
                     width={160}
                     height={53}
                     className="h-10 w-auto  dark:hidden"
                 />
                 <Image
-                    src="/images/brand/app-store-mobile.png"
+                    src="/images/brand/app-store-mobile-dark.png"
                     alt="Download on the App Store"
                     width={160}
                     height={53}
@@ -49,14 +49,14 @@ export function DownloadButtons({className, align = "center"}: DownloadButtonsPr
                 className="transition-all duration-300 flex items-center justify-center hover:scale-105 hover:opacity-90 active:scale-95 overflow-hidden"
             >
                 <Image
-                    src="/images/brand/play-store-dark.png"
+                    src="/images/brand/play-store-light.png"
                     alt="Get it on Google Play"
                     width={160}
                     height={53}
                     className="h-10 w-auto dark:hidden"
                 />
                 <Image
-                    src="/images/brand/play-store-light.png"
+                    src="/images/brand/play-store-dark.png"
                     alt="Get it on Google Play"
                     width={160}
                     height={53}

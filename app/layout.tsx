@@ -1,8 +1,12 @@
 import type { Metadata } from 'next';
-import { PT_Serif, Nunito } from 'next/font/google';
+import { PT_Serif, Nunito, Geist } from 'next/font/google';
 import './globals.css';
 import {SiteHeader} from "@/components/layout/site-header";
 import {SiteFooter} from "@/components/layout/site-footer";
+import { cn } from "@/lib/utils";
+import {Toaster} from "sonner";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const ptSerif = PT_Serif({
   variable: '--font-pt-serif',
@@ -40,11 +44,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${ptSerif.variable} ${nunito.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", ptSerif.variable, nunito.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full">
       <SiteHeader />
       {children}
+      <Toaster position="top-center" richColors />
       <SiteFooter />
       </body>
     </html>

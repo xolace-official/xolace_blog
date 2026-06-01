@@ -5,19 +5,15 @@ export type PostCategory =
   | 'territory'
   | 'people';
 
-export type PostFrontmatter = {
+export type PostMetadata = {
+  slug: string;
   title: string;
   subtitle?: string;
   publishedAt: string;
   category: PostCategory;
   isPublished: boolean;
   readTimeMinutes: number;
-};
 
-export type PostMetadata = PostFrontmatter & {
-  slug: string;
-};
-
-export type Post = PostMetadata & {
-  content: React.ReactElement;
+  imageUrl?: string;
+  content?: string;
 };

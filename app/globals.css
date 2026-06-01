@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -122,15 +123,69 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background;
+    @apply bg-background text-foreground;
   }
   main {
-    @apply px-4 py-8 md:py-24 md:px-24;
+    @apply px-4 pb-8 md:py-8 md:px-24;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  /* ── Post body content ── */
+  #post-body p {
+    @apply my-6 text-[1.0625rem] leading-[1.85] text-foreground/90;
+  }
+
+  #post-body h2 {
+    @apply mt-12 mb-4 font-serif text-2xl font-semibold text-foreground;
+  }
+
+  #post-body h3 {
+    @apply mt-8 mb-3 font-serif text-xl font-semibold text-foreground;
+  }
+
+  #post-body blockquote {
+    @apply my-8 border-l-2 border-primary/40 pl-5 py-1 text-xl italic text-muted-foreground;
+  }
+
+  #post-body blockquote p {
+    @apply my-0;
+  }
+
+  #post-body ul {
+    @apply my-6 list-disc pl-6 space-y-2;
+  }
+
+  #post-body ol {
+    @apply my-6 list-decimal pl-6 space-y-2;
+  }
+
+  #post-body li {
+    @apply text-[1.0625rem] leading-[1.85] text-foreground/90;
+  }
+
+  #post-body strong {
+    @apply font-semibold text-foreground;
+  }
+
+  #post-body em {
+    @apply italic;
+  }
+
+  #post-body a {
+    @apply underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors;
+  }
+
+  #post-body hr {
+    @apply my-10 border-border/50;
   }
 }
 
@@ -144,3 +199,4 @@
   }
 
 }
+

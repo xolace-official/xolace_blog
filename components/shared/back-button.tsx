@@ -32,7 +32,7 @@ export function BackButton({ href, label = 'All Posts', className }: BackButtonP
 
             {/* Desktop — floats left of the centered column */}
             <div className="hidden md:block">
-                <div className="mx-auto max-w-4xl relative">
+                <div className="mx-auto max-w-3xl relative">
                     <Button
                         asChild
                         variant="outline"

@@ -9,9 +9,9 @@ import { Menu, X } from 'lucide-react';
 import { XolaceLogo } from '@/components/shared/xolace-logo';
 
 const navLinks = [
-  { label: 'Stories', href: '/stories' },
-  { label: 'About', href: '/about' },
-  { label: 'Topics', href: '/topics' },
+  // { label: 'Stories', href: '/stories' },
+  // { label: 'About', href: '/about' },
+  // { label: 'Topics', href: '/topics' },
 ];
 
 export function SiteHeader() {

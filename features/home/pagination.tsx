@@ -65,7 +65,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                         disabled={page === currentPage}
                         className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border text-sm transition-colors duration-150
                                     ${page === currentPage
-                            ? 'border-foreground bg-foreground text-background font-semibold cursor-default'
+                            ? 'bg-accent font-semibold cursor-default'
                             : 'border-border text-foreground hover:bg-muted'
                         }`}
                     >

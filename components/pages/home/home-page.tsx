@@ -61,19 +61,21 @@ export function HomePage() {
     }
 
     return (
-        <main>
+        <div>
             <CategoryFilter
                 active={activeCategory}
                 onCategoryChange={handleCategoryChange}
                 search={search}
                 onSearchChange={handleSearchChange}
             />
-            <PostList posts={paginatedPosts} />
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
-        </main>
+            <main>
+                <PostList posts={paginatedPosts} />
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            </main>
+        </div>
     );
 }

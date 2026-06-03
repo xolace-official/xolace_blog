@@ -12,7 +12,6 @@ const navLinks: { label: string; href: string }[] = [];
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [heroHeight, setHeroHeight] = useState<number>(0);
   const heroInnerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -35,21 +34,10 @@ export function SiteHeader() {
     return () => window.removeEventListener('resize', measureHero);
   }, [isHome, measureHero]);
 
-  useEffect(() => {
-    // Reset scroll state when navigating to home
-    if (isHome) {
-      setIsScrolled(window.scrollY > 10);
-    }
-  }, [isHome]);
 
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   return (
-      <header className="sticky top-0 z-[99] w-full bg-muted shadow-sm px-4 md:px-8">
+      <header className="top-0 z-[99] w-full bg-muted shadow-sm px-4 md:px-8">
 
         {/* ── Nav bar ── */}
         <div className="py-4">
@@ -103,10 +91,10 @@ export function SiteHeader() {
         {isHome && (
             <div
                 style={{
-                  height: isScrolled ? 0 : heroHeight || 'auto',
-                  opacity: isScrolled ? 0 : 1,
+                  height:  heroHeight ,
+                  opacity: 1,
                   overflow: 'hidden',
-                  pointerEvents: isScrolled ? 'none' : 'auto',
+                  pointerEvents: 'none',
                   transition: heroHeight
                       ? 'height 500ms cubic-bezier(0.16,1,0.3,1), opacity 400ms cubic-bezier(0.16,1,0.3,1)'
                       : 'none',
@@ -114,10 +102,6 @@ export function SiteHeader() {
             >
               <div
                   ref={heroInnerRef}
-                  style={{
-                    transform: isScrolled ? 'translateY(-16px)' : 'translateY(0)',
-                    transition: 'transform 500ms cubic-bezier(0.16,1,0.3,1)',
-                  }}
               >
                 <section className="mx-auto py-4">
                   <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

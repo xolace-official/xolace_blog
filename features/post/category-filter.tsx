@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import type { PostCategory } from '@/types/post';
+import {cn} from "@/lib/utils";
 
 const categories: { value: PostCategory | 'all'; label: string }[] = [
     { value: 'all', label: 'All Categories' },
@@ -31,9 +32,32 @@ type CategoryFilterProps = {
 
 export function CategoryFilter({ active, onCategoryChange, search, onSearchChange }: CategoryFilterProps) {
     const [mobileView, setMobileView] = useState<'search' | 'category'>('search');
+    const [isSticky, setIsSticky] = useState(false);
+    const filterRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!filterRef.current) return;
+
+            const { top } = filterRef.current.getBoundingClientRect();
+            setIsSticky(top <= 0);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
-        <div className="mb-4 md:mb-8">
+        <div
+            ref={filterRef}
+            className={`sticky top-0 z-40 transition-all mt-4 md:mt-8 px-4 md:px-8 duration-300 ${
+                isSticky
+                    ? 'bg-muted py-3 shadow-sm border-b'
+                    : ''
+            }`}
+        >
 
             {/* ── MOBILE ── */}
             <div className="flex items-center gap-2 sm:hidden">
@@ -46,7 +70,10 @@ export function CategoryFilter({ active, onCategoryChange, search, onSearchChang
                                 placeholder="Search stories..."
                                 value={search}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="pl-9 rounded-md border-border text-sm"
+                                className={cn(
+                                    'pl-9 rounded-md border-border text-sm transition-colors',
+                                    isSticky && 'bg-background border-border shadow-sm'
+                                )}
                             />
                         </div>
                         <Button
@@ -65,7 +92,12 @@ export function CategoryFilter({ active, onCategoryChange, search, onSearchChang
                             value={active}
                             onValueChange={(val) => onCategoryChange(val as PostCategory | 'all')}
                         >
-                            <SelectTrigger className="flex-1 rounded-md border-border text-sm">
+                            <SelectTrigger
+                                className={cn(
+                                    'flex-1 rounded-md border-border text-sm transition-colors',
+                                    isSticky && 'bg-background border-border shadow-sm'
+                                )}
+                            >
                                 <SelectValue placeholder="Filter by category" />
                             </SelectTrigger>
                             <SelectContent>
@@ -98,14 +130,22 @@ export function CategoryFilter({ active, onCategoryChange, search, onSearchChang
                         placeholder="Search stories..."
                         value={search}
                         onChange={(e) => onSearchChange(e.target.value)}
-                        className="pl-9 rounded-md border-border text-sm"
+                        className={cn(
+                            'pl-9 rounded-md border-border text-sm transition-colors',
+                            isSticky && 'bg-background border-border shadow-sm'
+                        )}
                     />
                 </div>
                 <Select
                     value={active}
                     onValueChange={(val) => onCategoryChange(val as PostCategory | 'all')}
                 >
-                    <SelectTrigger className="w-48 rounded-md border-border text-sm">
+                    <SelectTrigger
+                        className={cn(
+                            'w-48 rounded-md border-border text-sm transition-colors',
+                            isSticky && 'bg-background border-border shadow-sm'
+                        )}
+                    >
                         <SelectValue placeholder="Filter by category" />
                     </SelectTrigger>
                     <SelectContent>

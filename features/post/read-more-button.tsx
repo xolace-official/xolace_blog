@@ -13,7 +13,7 @@ export function ReadMoreButton({ href, label = 'READ MORE', className }: ReadMor
     return (
         <Button
             asChild
-            variant="default"
+            variant="outline"
             size="sm"
             className={cn(
                 'rounded-full border-foreground uppercase tracking-widest text-[11px] font-semibold gap-1.5 transition-all duration-200',

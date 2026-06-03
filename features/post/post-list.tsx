@@ -8,7 +8,7 @@ type PostListProps = {
 export function PostList({ posts }: PostListProps) {
   return (
     <section className="flex w-full items-center justify-center">
-      <div className="content-grid">
+      <div className="content-grid w-full">
         {posts.map((post) => (
           <PostCard key={post.slug} post={post} />
         ))}

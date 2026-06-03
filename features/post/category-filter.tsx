@@ -1,5 +1,9 @@
 'use client';
 
+import { useState } from 'react';
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
     Select,
     SelectContent,
@@ -20,31 +24,100 @@ const categories: { value: PostCategory | 'all'; label: string }[] = [
 
 type CategoryFilterProps = {
     active: PostCategory | 'all';
-    onChange: (category: PostCategory | 'all') => void;
+    onCategoryChange: (category: PostCategory | 'all') => void;
+    search: string;
+    onSearchChange: (value: string) => void;
 };
 
-export function CategoryFilter({ active, onChange }: CategoryFilterProps) {
+export function CategoryFilter({ active, onCategoryChange, search, onSearchChange }: CategoryFilterProps) {
+    const [mobileView, setMobileView] = useState<'search' | 'category'>('search');
+
     return (
         <div className="mb-4 md:mb-8">
-            <Select
-                value={active}
-                onValueChange={(val) => onChange(val as PostCategory | 'all')}
-            >
-                <SelectTrigger className="w-48 rounded-md border-border text-sm">
-                    <SelectValue placeholder="Filter by category" />
-                </SelectTrigger>
-                <SelectContent>
-                    {categories.map(({ value, label }) => (
-                        <SelectItem
-                            key={value}
-                            value={value}
-                            className="text-sm"
+
+            {/* ── MOBILE ── */}
+            <div className="flex items-center gap-2 sm:hidden">
+                {mobileView === 'search' ? (
+                    <>
+                        <div className="relative flex-1">
+                            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                            <Input
+                                type="text"
+                                placeholder="Search stories..."
+                                value={search}
+                                onChange={(e) => onSearchChange(e.target.value)}
+                                className="pl-9 rounded-md border-border text-sm"
+                            />
+                        </div>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="shrink-0 rounded-md border-border"
+                            onClick={() => setMobileView('category')}
+                            aria-label="Show category filter"
                         >
-                            {label}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
+                            <SlidersHorizontal size={15} />
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Select
+                            value={active}
+                            onValueChange={(val) => onCategoryChange(val as PostCategory | 'all')}
+                        >
+                            <SelectTrigger className="flex-1 rounded-md border-border text-sm">
+                                <SelectValue placeholder="Filter by category" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {categories.map(({ value, label }) => (
+                                    <SelectItem key={value} value={value} className="text-sm">
+                                        {label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="shrink-0 rounded-md border-border"
+                            onClick={() => setMobileView('search')}
+                            aria-label="Show search"
+                        >
+                            <Search size={15} />
+                        </Button>
+                    </>
+                )}
+            </div>
+
+            {/* ── DESKTOP ── */}
+            <div className="hidden sm:flex items-center gap-3 justify-end">
+                <div className="relative max-w-sm w-full">
+                    <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                    <Input
+                        type="text"
+                        placeholder="Search stories..."
+                        value={search}
+                        onChange={(e) => onSearchChange(e.target.value)}
+                        className="pl-9 rounded-md border-border text-sm"
+                    />
+                </div>
+                <Select
+                    value={active}
+                    onValueChange={(val) => onCategoryChange(val as PostCategory | 'all')}
+                >
+                    <SelectTrigger className="w-48 rounded-md border-border text-sm">
+                        <SelectValue placeholder="Filter by category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {categories.map(({ value, label }) => (
+                            <SelectItem key={value} value={value} className="text-sm">
+                                {label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+
         </div>
     );
 }

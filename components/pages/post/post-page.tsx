@@ -4,8 +4,8 @@ import { Link2, Clock3, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { PostMetadata, PostCategory } from '@/types/post';
 import { RelatedCard } from '@/features/post/related-card';
-import {BackButton} from "@/components/shared/back-button";
-import {toast} from "sonner";
+import { BackButton } from '@/components/shared/back-button';
+import { toast } from 'sonner';
 
 const categoryLabels: Record<PostCategory, string> = {
     vocabulary: 'Vocabulary',
@@ -42,7 +42,7 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                     description: 'Could not copy the link. Please try manually.',
                 });
             });
-    }
+    };
 
     return (
         <div>
@@ -56,7 +56,7 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                     />
                 </div>
 
-                {/* Back button — mobile sits in flow, desktop floats left of article */}
+                {/* Back button */}
                 <div className="pt-8 pb-0">
                     <BackButton href="/" label="All Posts" />
                 </div>
@@ -74,18 +74,51 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                         )}
 
                         <div className="mt-8 flex flex-wrap items-center gap-5 pb-8 border-b border-border/50 text-sm text-muted-foreground">
+
+                            {/* Authors */}
                             <div className="flex items-center gap-2">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-foreground">
-                                    X
+                                {/* Stacked avatars */}
+                                <div className="flex -space-x-2">
+                                    {post.authors.map((author) =>
+                                        author.imageUrl ? (
+                                            <Image
+                                                key={author.name}
+                                                src={author.imageUrl}
+                                                alt={author.name}
+                                                width={32}
+                                                height={32}
+                                                className="rounded-full border-2 border-background object-cover w-8 h-8"
+                                            />
+                                        ) : (
+                                            <div
+                                                key={author.name}
+                                                className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-background bg-accent text-xs font-semibold text-accent-foreground"
+                                            >
+                                                {author.name.charAt(0)}
+                                            </div>
+                                        )
+                                    )}
                                 </div>
-                                <span className="font-medium text-foreground">Xolace</span>
+                                {/* Author name(s) */}
+                                <span className="font-medium text-foreground">
+                                    {post.authors.length === 1
+                                        ? post.authors[0].name
+                                        : post.authors.length === 2
+                                            ? `${post.authors[0].name} & ${post.authors[1].name}`
+                                            : 'Multiple authors'
+                                    }
+                                </span>
                             </div>
+
                             <span className="text-border">·</span>
+
                             <div className="flex items-center gap-1.5">
                                 <Calendar size={14} />
                                 <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
                             </div>
+
                             <span className="text-border">·</span>
+
                             <div className="flex items-center gap-1.5">
                                 <Clock3 size={14} />
                                 {post.readTimeMinutes} min read
@@ -130,7 +163,7 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                             <Button
                                 variant="outline"
                                 size="sm"
-                                className="rounded-full gap-1.5 text-xs"
+                                className="rounded-full gap-1.5 text-xs cursor-pointer"
                                 onClick={handleCopyToClipboard}
                             >
                                 <Link2 size={13} /> Copy link

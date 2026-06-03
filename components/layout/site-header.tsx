@@ -2,17 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Menu, X } from 'lucide-react';
 import { XolaceLogo } from '@/components/shared/xolace-logo';
 
-const navLinks = [
-  // { label: 'Stories', href: '/stories' },
-  // { label: 'About', href: '/about' },
-  // { label: 'Topics', href: '/topics' },
-];
+const navLinks: { label: string; href: string }[] = [];
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,24 +18,40 @@ export function SiteHeader() {
   const pathname = usePathname();
   const isHome = pathname === '/';
 
-  // Measure real hero height once mounted
-  useEffect(() => {
+  // Measure hero height — runs after paint so value is always accurate
+  const measureHero = useCallback(() => {
     if (heroInnerRef.current) {
       setHeroHeight(heroInnerRef.current.scrollHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isHome) return;
+
+    measureHero();
+
+    // Re-measure on resize so height stays accurate
+    window.addEventListener('resize', measureHero);
+    return () => window.removeEventListener('resize', measureHero);
+  }, [isHome, measureHero]);
+
+  useEffect(() => {
+    // Reset scroll state when navigating to home
+    if (isHome) {
+      setIsScrolled(window.scrollY > 10);
     }
   }, [isHome]);
 
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-      <header className="sticky top-0 z-99 w-full bg-muted shadow-sm px-4 md:px-24 ">
+      <header className="sticky top-0 z-[99] w-full bg-muted shadow-sm px-4 md:px-8">
 
-        {/* ── Nav bar — always visible ── */}
+        {/* ── Nav bar ── */}
         <div className="py-4">
           <div className="mx-auto flex items-center justify-between">
             <Link href="/" className="group shrink-0">
@@ -58,17 +70,19 @@ export function SiteHeader() {
               ))}
             </nav>
 
-            <button
-                type="button"
-                className="text-muted-foreground md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {navLinks.length > 0 && (
+                <button
+                    type="button"
+                    className="text-muted-foreground md:hidden"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            )}
           </div>
 
-          {mobileMenuOpen && (
+          {mobileMenuOpen && navLinks.length > 0 && (
               <nav className="bg-muted px-6 py-4 md:hidden">
                 <div className="flex flex-col gap-4">
                   {navLinks.map((link) => (
@@ -86,14 +100,16 @@ export function SiteHeader() {
           )}
         </div>
 
-        {/* ── Hero — animates height + opacity + translateY in/out ── */}
         {isHome && (
             <div
                 style={{
-                  height: isScrolled ? 0 : heroHeight,
+                  height: isScrolled ? 0 : heroHeight || 'auto',
                   opacity: isScrolled ? 0 : 1,
                   overflow: 'hidden',
-                  transition: 'height 500ms cubic-bezier(0.16,1,0.3,1), opacity 400ms cubic-bezier(0.16,1,0.3,1)',
+                  pointerEvents: isScrolled ? 'none' : 'auto',
+                  transition: heroHeight
+                      ? 'height 500ms cubic-bezier(0.16,1,0.3,1), opacity 400ms cubic-bezier(0.16,1,0.3,1)'
+                      : 'none',
                 }}
             >
               <div
@@ -103,8 +119,8 @@ export function SiteHeader() {
                     transition: 'transform 500ms cubic-bezier(0.16,1,0.3,1)',
                   }}
               >
-                <section className="mx-auto pb-16 pt-2 md:pb-20 md:pt-4">
-                  <div className="mt-4 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                <section className="mx-auto py-4">
+                  <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
                     <div className="max-w-xl">
                       <h1 className="font-serif text-3xl leading-tight text-muted-foreground md:text-[42px] md:leading-[1.15]">
                         Essays and words for what&apos;s hard to carry.
@@ -115,7 +131,7 @@ export function SiteHeader() {
                     </p>
                   </div>
 
-                  <div className="mt-10 flex max-w-md flex-col gap-3 sm:flex-row bg-white p-1 rounded-md">
+                  <div className="mt-8 flex max-w-md flex-col gap-3 sm:flex-row bg-white p-1 rounded-md">
                     <Input
                         type="email"
                         placeholder="Enter your email here to subscribe"

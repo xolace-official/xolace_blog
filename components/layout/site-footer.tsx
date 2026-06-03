@@ -48,9 +48,8 @@ export function SiteFooter() {
           </button>
         </div>
 
-        {/* Main footer card — lifts up and gets rounded bottom corners on hover */}
         <motion.div
-            className="relative z-10 w-full bg-muted px-4 pt-4 pb-8 md:px-24 md:pt-16 md:pb-8"
+            className="relative z-10 w-full bg-muted px-4 pt-4 pb-8 md:px-8 md:pt-8 md:pb-8"
             initial={{ borderBottomLeftRadius: '0px', borderBottomRightRadius: '0px' }}
             animate={{
               borderBottomLeftRadius: hovered ? '2rem' : '0px',
@@ -69,7 +68,7 @@ export function SiteFooter() {
                 This reading layer is just one room. Step into the main space to explore the full vision for Xolace, or join the ambassadors moving it forward.
               </p>
               <div className="mt-8 flex items-center justify-center gap-4 flex-row">
-                <Button asChild className="h-10 font-semibold">
+                <Button asChild className="h-10 font-semibold" variant={"outline"}>
                   <Link href="https://xolaceinc.com" target="_blank" rel="noopener noreferrer">
                     Explore Xolace
                   </Link>
@@ -133,7 +132,7 @@ export function SiteFooter() {
                   transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
                   className="border-muted-foreground/20 pt-4"
               >
-                <div className="flex flex-row gap-4 items-center justify-between">
+                <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
                   <p className="text-[15px] text-muted-foreground/70">
                     {`© ${new Date().getFullYear()} Xolace Inc. All rights reserved.`}
                   </p>

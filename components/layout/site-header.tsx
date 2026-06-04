@@ -115,11 +115,11 @@ export function SiteHeader() {
                     </p>
                   </div>
 
-                  <div className="mt-8 flex max-w-md flex-col gap-3 sm:flex-row bg-white p-1 rounded-md">
+                  <div className="mt-8 flex max-w-md flex-col gap-3 sm:flex-row bg-background p-1 rounded-md">
                     <Input
                         type="email"
                         placeholder="Enter your email here to subscribe"
-                        className="flex-1 bg-background text-foreground placeholder:text-foreground/60 focus-visible:ring-primary/50"
+                        className="flex-1 bg-forground text-foreground placeholder:text-foreground/60 focus-visible:ring-primary/50"
                     />
                     <Button type="button">
                       Subscribe

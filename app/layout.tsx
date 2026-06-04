@@ -5,6 +5,7 @@ import {SiteHeader} from "@/components/layout/site-header";
 import {SiteFooter} from "@/components/layout/site-footer";
 import { cn } from "@/lib/utils";
 import {Toaster} from "sonner";
+import {ThemeProvider} from "next-themes";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -45,12 +46,17 @@ export default function RootLayout({
     <html
       lang="en"
       className={cn("h-full", "antialiased", ptSerif.variable, nunito.variable, "font-sans", geist.variable)}
+      suppressHydrationWarning
     >
       <body className="min-h-full">
-      <SiteHeader />
-      {children}
-      <Toaster position="top-center" richColors />
-      <SiteFooter />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <>
+            <SiteHeader />
+            {children}
+            <Toaster position="top-center" richColors />
+            <SiteFooter />
+          </>
+      </ThemeProvider>
       </body>
     </html>
   );

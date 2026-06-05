@@ -108,6 +108,18 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                                         Guest
                                     </span>
                                 )}
+                                {'sourceName' in post && post.sourceName && (
+                                    <span className="text-muted-foreground font-normal ml-1 flex items-center">
+                                        from 
+                                        {post.sourceUrl ? (
+                                            <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="ml-1 underline hover:text-foreground transition-colors">
+                                                {post.sourceName}
+                                            </a>
+                                        ) : (
+                                            <span className="ml-1 text-foreground">{post.sourceName}</span>
+                                        )}
+                                    </span>
+                                )}
                             </div>
 
                             <span className="text-border">·</span>

@@ -13,6 +13,7 @@ function toPostMetadata(slug: string, entry: {
   isPublished: boolean;
   readTimeMinutes: number | null;
   isGuest: boolean;
+  sourceName: string | null;
   sourceUrl: string | null;
   authors: ReadonlyArray<{ name: string; imageUrl: string | null }>;
   imageUrl: string | null;
@@ -26,6 +27,7 @@ function toPostMetadata(slug: string, entry: {
     isPublished: entry.isPublished,
     readTimeMinutes: entry.readTimeMinutes ?? 5,
     isGuest: entry.isGuest,
+    sourceName: entry.sourceName ?? undefined,
     sourceUrl: entry.sourceUrl ?? undefined,
     authors: entry.authors.map((a): PostAuthor => ({
       name: a.name,

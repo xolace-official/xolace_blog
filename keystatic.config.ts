@@ -2,7 +2,11 @@ import { config, fields, collection } from '@keystatic/core';
 
 export default config({
   storage: {
-    kind: 'local',
+    kind: process.env.NODE_ENV === 'production' ? 'github' : 'local',
+    repo: {
+      owner: process.env.KEYSTATIC_GITHUB_REPO_OWNER || '',
+      name: process.env.KEYSTATIC_GITHUB_REPO_NAME || '',
+    },
   },
   ui: {
     brand: {
@@ -51,6 +55,10 @@ export default config({
           label: 'Guest post',
           description: 'Check if this is a guest or externally curated post',
           defaultValue: false,
+        }),
+        sourceName: fields.text({
+          label: 'Source Name',
+          description: 'Name of the original site (e.g., Medical News Today)',
         }),
         sourceUrl: fields.url({
           label: 'Source URL',

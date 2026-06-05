@@ -21,6 +21,7 @@ export type PostMetadata = {
   authors: PostAuthor[];
   imageUrl?: string;
   isGuest: boolean;
+  sourceName?: string;
   sourceUrl?: string;
 };
 

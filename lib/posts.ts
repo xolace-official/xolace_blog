@@ -54,9 +54,11 @@ export async function getAllPosts(): Promise<PostMetadata[]> {
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const entry = await reader.collections.posts.read(slug, { resolveLinkedFiles: true });
+  console.log("entry ", entry)
   if (!entry || !entry.isPublished) return null;
 
-    const transformed = Markdoc.transform(entry.content.node);
+  const transformed = Markdoc.transform(entry.content.node);
+  console.log("transformed ", transformed)
     const html = Markdoc.renderers.html(transformed);
 
     return {

@@ -20,5 +20,10 @@ export type PostMetadata = {
   readTimeMinutes: number;
   authors: PostAuthor[];
   imageUrl?: string;
-  content?: string;
+  isGuest: boolean;
+  sourceUrl?: string;
+};
+
+export type Post = PostMetadata & {
+  content: string;
 };

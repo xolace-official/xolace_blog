@@ -24,7 +24,7 @@ function formatDate(dateString: string): string {
 }
 
 type PostPageProps = {
-    post: PostMetadata;
+    post: PostMetadata & { content?: string };
     relatedPosts?: PostMetadata[];
 };
 
@@ -47,7 +47,6 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
     return (
         <div>
             <main>
-                {/* Reading progress bar */}
                 <div className="fixed top-0 left-0 right-0 z-50 h-[2px] bg-border/30">
                     <div
                         id="reading-progress"
@@ -56,7 +55,6 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                     />
                 </div>
 
-                {/* Back button */}
                 <div className="pt-8 pb-0">
                     <BackButton href="/" label="All Posts" />
                 </div>
@@ -75,9 +73,7 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
 
                         <div className="mt-8 flex flex-wrap items-center gap-5 pb-8 border-b border-border/50 text-sm text-muted-foreground">
 
-                            {/* Authors */}
                             <div className="flex items-center gap-2">
-                                {/* Stacked avatars */}
                                 <div className="flex -space-x-2">
                                     {post.authors.map((author) =>
                                         author.imageUrl ? (
@@ -99,7 +95,6 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                                         )
                                     )}
                                 </div>
-                                {/* Author name(s) */}
                                 <span className="font-medium text-foreground">
                                     {post.authors.length === 1
                                         ? post.authors[0].name
@@ -108,6 +103,11 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                                             : 'Multiple authors'
                                     }
                                 </span>
+                                {post.isGuest && (
+                                    <span className="rounded-full bg-secondary px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                                        Guest
+                                    </span>
+                                )}
                             </div>
 
                             <span className="text-border">·</span>
@@ -126,7 +126,6 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                         </div>
                     </header>
 
-                    {/* Hero image */}
                     <div className="relative my-10 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-muted">
                         {post.imageUrl ? (
                             <Image
@@ -144,14 +143,26 @@ export function PostPage({ post, relatedPosts = [] }: PostPageProps) {
                         )}
                     </div>
 
-                    {/* Body */}
                     <div
                         id="post-body"
                         className="mt-2"
                         dangerouslySetInnerHTML={{ __html: post.content ?? '' }}
                     />
 
-                    {/* Footer */}
+                    {'sourceUrl' in post && post.sourceUrl && (
+                        <p className="mt-6 text-sm text-muted-foreground italic">
+                            Originally published at{' '}
+                            <a
+                                href={post.sourceUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline underline-offset-4 text-primary decoration-primary/40 hover:decoration-primary transition-colors"
+                            >
+                                {new URL(post.sourceUrl).hostname}
+                            </a>
+                        </p>
+                    )}
+
                     <div className="mt-8 flex items-center justify-between">
                         <p className="text-sm text-muted-foreground">
                             Published in{' '}

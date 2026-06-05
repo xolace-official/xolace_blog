@@ -2,10 +2,10 @@
 import { notFound } from "next/navigation";
 
 import type { Metadata } from "next";
-import {getPostBySlug} from "@/features/post/getPostBySlug";
-import {PostPage} from "@/components/pages/post/post-page";
-import {ReadingProgress} from "@/features/post/reading-progress";
-import {dummyPosts} from "@/features/post/dummy";
+import { getPostBySlug } from "@/lib/posts";
+import { getRelatedPosts } from "@/lib/posts";
+import { PostPage } from "@/components/pages/post/post-page";
+import { ReadingProgress } from "@/features/post/reading-progress";
 
 export async function generateMetadata({
                                            params,
@@ -60,9 +60,7 @@ export default async function Page({ params }: Props) {
         notFound();
     }
 
-    const relatedPosts = dummyPosts
-        .filter((p) => p.slug !== post.slug && p.category === post.category)
-        .slice(0, 3);
+    const relatedPosts = await getRelatedPosts(slug, post.category);
 
     return (
         <>

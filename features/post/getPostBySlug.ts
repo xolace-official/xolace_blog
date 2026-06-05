@@ -1,7 +1,5 @@
-import {dummyPosts} from "@/features/post/dummy";
+import { getPostBySlug as readPost } from "@/lib/posts";
 
 export async function getPostBySlug(slug: string) {
-    return dummyPosts.find(
-        (post) => post.slug === slug && post.isPublished
-    );
+    return readPost(slug);
 }

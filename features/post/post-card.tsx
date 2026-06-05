@@ -21,7 +21,6 @@ export function PostCard({post}: PostCardProps) {
         <Link href={`/${post.slug}`} className="group block">
             <article className="flex flex-col">
 
-                {/* Thumbnail */}
                 <div className="relative w-full aspect-16/10 overflow-hidden rounded-2xl bg-muted">
                     {post.imageUrl ? (
                         <Image
@@ -40,10 +39,8 @@ export function PostCard({post}: PostCardProps) {
                     )}
                 </div>
 
-                {/* Content */}
                 <div className="flex flex-col pt-4 px-1">
 
-                    {/* Date */}
                     <time
                         dateTime={post.publishedAt}
                         className="text-[11px] font-medium tracking-widest text-muted-foreground/70"
@@ -51,12 +48,10 @@ export function PostCard({post}: PostCardProps) {
                         {formatDate(post.publishedAt)}
                     </time>
 
-                    {/* Title */}
                     <h3 className="mt-2 font-serif text-[20px] md:text-[22px] font-semibold leading-snug text-foreground line-clamp-2">
                         {post.title}
                     </h3>
 
-                    {/* Author */}
                     <div className="mt-3 flex items-center gap-2">
                         <div className="flex -space-x-2">
                             {post.authors.map((author) =>
@@ -79,7 +74,6 @@ export function PostCard({post}: PostCardProps) {
                                 )
                             )}
                         </div>
-                        {/* Name(s) */}
                         <span className="text-[13px] font-medium text-foreground/80">
                             {post.authors.length === 1
                                 ? post.authors[0].name
@@ -88,6 +82,11 @@ export function PostCard({post}: PostCardProps) {
                                     : 'Multiple authors'
                             }
                         </span>
+                        {post.isGuest && (
+                            <span className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                                Guest
+                            </span>
+                        )}
                     </div>
                 </div>
             </article>

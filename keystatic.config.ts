@@ -5,7 +5,7 @@ export default config({
     kind: process.env.NODE_ENV === 'production' ? 'cloud' : 'local',
   },
   cloud: {
-      project: process.env.KEYSTATIC_GITHUB_REPO_NAME || '',
+      project: process.env.NEXT_PUBLIC_PROJECT_KEY || '',
   },
   ui: {
     brand: {

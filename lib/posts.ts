@@ -39,9 +39,11 @@ function toPostMetadata(slug: string, entry: {
 
 export async function getAllPosts(): Promise<PostMetadata[]> {
   const slugs = await reader.collections.posts.list();
+  console.log("slugs ",slugs)
   const entries = await Promise.all(
     slugs.map(async (slug) => {
       const entry = await reader.collections.posts.read(slug);
+      console.log("all posts ", entry)
       if (!entry || !entry.isPublished) return null;
       return toPostMetadata(slug, entry);
     })

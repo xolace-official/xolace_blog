@@ -16,13 +16,17 @@ type PostCardProps = {
     post: PostMetadata;
 };
 
+function isValidUrl(url: string): boolean {
+    return url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://');
+}
+
 export function PostCard({post}: PostCardProps) {
     return (
         <Link href={`/${post.slug}`} className="group block">
             <article className="flex flex-col">
 
                 <div className="relative w-full aspect-16/10 overflow-hidden rounded-2xl bg-muted">
-                    {post.imageUrl ? (
+                    {post.imageUrl && isValidUrl(post.imageUrl) ? (
                         <Image
                             src={post.imageUrl}
                             alt={post.title}
@@ -55,7 +59,7 @@ export function PostCard({post}: PostCardProps) {
                     <div className="mt-3 flex items-center gap-2">
                         <div className="flex -space-x-2">
                             {post.authors.map((author) =>
-                                author.imageUrl ? (
+                                author.imageUrl && isValidUrl(author.imageUrl) ? (
                                     <Image
                                         key={author.name}
                                         src={author.imageUrl}

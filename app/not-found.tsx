@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react"
 
 export default function NotFound() {
     return (
-        <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+        <div className="relative flex min-h-[calc(100dvh-4rem)] items-center justify-center overflow-hidden px-6 py-12">
 
             {/* Atmosphere */}
             <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -54,7 +54,7 @@ export default function NotFound() {
                 </div>
 
                 {/* Circle card */}
-                <div className="relative size-85 md:size-100 rounded-full border border-foreground/5 bg-xo-surface-bright/60 flex flex-col items-center justify-center text-center px-8 pt-8 pb-10">
+                <div className="relative size-85 md:size-100 rounded-full border border-border/20 bg-card/70 flex flex-col items-center justify-center text-center px-8 pt-8 pb-10">
 
                     {/* glow */}
                     <div aria-hidden className="absolute inset-0 pointer-events-none">
@@ -67,7 +67,7 @@ export default function NotFound() {
                         </p>
 
                         <h1 className="font-serif italic font-light text-2xl md:text-3xl text-foreground leading-[1.15]">
-                            Lost in<br />the quiet.
+                            Lost in the quiet.
                         </h1>
 
                         <div className="w-6 h-px bg-border/30" />
